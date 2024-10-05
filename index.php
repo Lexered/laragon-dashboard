@@ -1,7 +1,7 @@
 <?php
 
 // Fonction pour afficher et arrêter l'exécution du script avec var_dump
-function dd($value)
+function dd($value = '')
 {
   echo "<pre>" . var_dump($value) . "</pre>";
   die();
@@ -10,8 +10,9 @@ function dd($value)
 // Fonction pour obtenir le domaine du serveur
 function serverDomain()
 {
-  return $serverDomain = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'];
+  return $serverDomain = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 }
+// dd(serverDomain());
 
 // Fonction pour obtenir le chemin d'un asset
 function asset($path)
