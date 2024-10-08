@@ -1,5 +1,7 @@
 /* Reset des styles par défaut */
-* {
+*,
+::after,
+::before {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -55,6 +57,7 @@
   --background-color: #f1f3f5;
   --text-color: var(--black);
   --sub-menu-bg: var(--white);
+  --border-color: #eaeaea;
 }
 
 /* Thème sombre */
@@ -62,22 +65,52 @@
   --background-color: #151515;
   --text-color: white;
   --sub-menu-bg: #3e3e3e;
+  --border-color: #5a5a5a;
+}
+
+/* Style des champs de formulaire */
+input {
+  font-size: 16px;
+  font-family: inherit;
+  padding: 10px;
+  margin: 3px;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  background-color: var(--sub-menu-bg);
+  color: inherit;
+  outline: none;
+}
+input:focus {
+  outline: 2px solid var(--second-color);
+  border-color: var(--second-color);
 }
 
 /* Style des liens */
+button {
+  border: none;
+  outline: none;
+}
 a {
   text-decoration: none;
   color: inherit;
 }
-a.link {
+
+.link {
   position: relative;
   color: var(--text-color);
+  font-size: 16px;
+  font-family: inherit;
+  font-weight: inherit;
+  background-color: inherit;
   transition: 0.3s;
+  cursor: pointer;
 }
-a.link:hover {
+
+.link:hover {
   color: var(--primary-color);
 }
-a.link::before {
+
+.link::before {
   content: "";
   width: 0;
   height: 4px;
@@ -87,7 +120,8 @@ a.link::before {
   bottom: -3px;
   right: 0;
 }
-a.link:hover::before {
+
+.link:hover::before {
   width: 100%;
   right: auto;
   left: 0;
@@ -379,4 +413,140 @@ body {
 .moon {
   fill: #151633;
   animation: moon 15s linear infinite;
+}
+
+/* Emails popup container */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(20px);
+  background-color: #11182736;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.2);
+  transition: all 0.4s;
+}
+
+.popup-container.open {
+  visibility: visible;
+  transform: scale(1);
+  opacity: 1;
+}
+
+.popup-content {
+  padding: 20px;
+  background-color: var(--sub-menu-bg);
+  border-radius: 10px;
+}
+.popup-content__actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.popup-content__actions__item {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background-color: var(--border-color);
+}
+
+.popup-content__actions__item.close {
+  background-color: #d70000;
+}
+
+.popup-container.email .popup-content .dashboard-content-alignement {
+  /* width: 1200px; */
+  max-width: 1200px;
+  min-height: 400px;
+  max-height: 80vh;
+  overflow: hidden;
+}
+
+.dashboard-content-alignement {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  gap: 20px;
+}
+
+.dashboard-content-alignement aside {
+  min-width: 350px;
+  height: 100%;
+  overflow: hidden;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.email-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+.email-item {
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  background-color: color-mix(in srgb, var(--border-color) 30%, white);
+  transition: 0.3s;
+  cursor: pointer;
+  gap: 10px;
+}
+
+.email-item.active {
+  color: white !important;
+  background-color: var(--primary-color);
+}
+
+.email-item * {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  word-break: break-all;
+}
+
+.email-item:hover {
+  background-color: color-mix(in srgb, var(--primary-color) 10%, white);
+}
+.email-item__title {
+  font-weight: 600;
+  color: var(--second-color);
+}
+.email-item__subject,
+.email-item__date {
+  color: #616161;
+}
+
+.dashboard-content-alignement main {
+  min-width: 400px;
+  flex: 2;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.message {
+  padding: 10px 15px;
+  border-radius: 5px;
+  background-color: var(--background-color);
+  border: 1px solid var(--border-color);
+}
+
+.error {
+  color: #730000;
+  background-color: #ffe2e2;
 }

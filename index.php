@@ -244,6 +244,9 @@ if (isset($_GET['q'])) {
         <li class="header__menu-item">
           <a href="?q=info" class="header__link link" target="_blank">PHP info</a>
         </li>
+        <li class="header__menu-item">
+          <button class="header__link link" target="_blank" data-popup-target="email-popup">Email</button>
+        </li>
       </ul>
     </nav>
     <div class="header__actions">
@@ -260,7 +263,7 @@ if (isset($_GET['q'])) {
 
   <!--header-->
   <section class="main-container">
-    <div class="main-content">
+    <d class="main-content">
       <div class="main-content__laragon-title-and-version">
         <div class="main-content__laragon-version-container">
           <p>Full 6.0.220916</p>
@@ -297,8 +300,9 @@ if (isset($_GET['q'])) {
         }
         ?>
       </div>
-    </div>
+      </div>
   </section>
+   <?php include 'inbox/emails.php' ?>
   <script src="src/js/app.js"></script>
 </body>
 
