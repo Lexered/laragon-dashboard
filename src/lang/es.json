@@ -1,0 +1,20 @@
+{
+  "title": "Laragon",
+  "subtitle": "Panel del servidor local",
+  "Laragon": "Laragon",
+  "Local server panel": "Panel del servidor local",
+  "Projects": "Proyectos",
+  "PHP Info": "Información de PHP",
+  "PhpMyAdmin": "PhpMyAdmin",
+  "Email": "Correo electrónico",
+  "Documentation": "Documentación",
+  "PHP version": "Versión de PHP",
+  "OpenSSL": "OpenSSL",
+  "MySql": "MySql",
+  "Document Root": "Raíz del documento",
+  "Recents mail": "Correos recientes",
+  "Search for an email...": "Buscar un correo electrónico...",
+  "No emails open at the moment 🤷‍♂️.": "No hay correos abiertos en este momento 🤷‍♂️.",
+  "No emails found 🫤.": "No se encontraron correos 🫤.",
+  "Version Not Found": "Versión No Encontrada"
+}

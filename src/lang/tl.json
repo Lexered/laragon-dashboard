@@ -1,0 +1,20 @@
+{
+  "title": "Laragon",
+  "subtitle": "Lokal na server panel",
+  "Laragon": "Laragon",
+  "Local server panel": "Lokal na server panel",
+  "Projects": "Mga proyekto",
+  "PHP Info": "PHP Info",
+  "PhpMyAdmin": "PhpMyAdmin",
+  "Email": "Email",
+  "Documentation": "Dokumentasyon",
+  "PHP version": "PHP version",
+  "OpenSSL": "OpenSSL",
+  "MySql": "MySql",
+  "Document Root": "Root ng dokumento",
+  "Recents mail": "Kamakailang mga email",
+  "Search for an email...": "Maghanap ng isang email...",
+  "No emails open at the moment 🤷‍♂️.": "Walang mga email na bukas sa ngayon 🤷‍♂️.",
+  "No emails found 🫤.": "Walang mga email na natagpuan 🫤.",
+  "Version Not Found": "Hindi Matagpuang Bersyon"
+}
