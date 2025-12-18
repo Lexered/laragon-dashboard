@@ -43,9 +43,9 @@ function getLocalEmails(array $ignoredFiles = ['.', '..', '00-default.conf'])
           <div class="popup-content__actions">
             <button class="popup-content__actions__item close"></button>
           </div>
-          <h3>Emails récents</h3>
+          <h3><?= translate('Recents mail') ?></h3>
         </div>
-        <input type="search" name="search" id="search" placeholder="Rechercher un email...">
+        <input type="search" name="search" id="search" placeholder="<?= translate('Search for an email...') ?>">
         <div class="email-list">
           <!--  -->
           <?php if (!empty(getLocalEmails())) :
@@ -59,7 +59,7 @@ function getLocalEmails(array $ignoredFiles = ['.', '..', '00-default.conf'])
           else: ?>
             <!--  -->
             <div class="message error">
-              Aucun email trouvé 🫤.
+              <?= translate('No emails found 🫤.') ?>
             </div>
           <?php endif; ?>
         </div>
@@ -68,7 +68,7 @@ function getLocalEmails(array $ignoredFiles = ['.', '..', '00-default.conf'])
       <main class="email-container">
         <div class="email-content">
           <div class="message">
-            Aucun mail ouvert pour le moment 🤷‍♂️.
+            <?= translate('No emails open at the moment 🤷‍♂️.') ?>
           </div>
         </div>
       </main>

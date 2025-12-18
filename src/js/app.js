@@ -59,6 +59,7 @@ document.addEventListener("click", (e) => {
 });
 
 //---------------------------------------------------------------------------------
+
 document.addEventListener("DOMContentLoaded", () => {
   const searchEmail = document.querySelector("#search");
   const emailItems = document.querySelectorAll(".email-item");
@@ -74,4 +75,17 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+});
+
+//---------------------------------------------------------------------------------
+
+document.addEventListener("DOMContentLoaded", () => {
+  const dataLang = document.querySelectorAll(".set-lang");
+
+  dataLang.forEach((lang) => 
+    lang.addEventListener('click', ()=>{
+      document.cookie = `lang=${lang.getAttribute('data-lang')};`;
+      window.location.reload();
+    }) 
+  );
 });

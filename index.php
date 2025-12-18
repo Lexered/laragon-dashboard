@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 // Fonction pour afficher et arrêter l'exécution du script avec var_dump
 function dd($value = '')
 {
@@ -12,13 +14,45 @@ function serverDomain()
 {
   return $serverDomain = $_SERVER['REQUEST_SCHEME'] . "://" . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
 }
-// dd(serverDomain());
 
 // Fonction pour obtenir le chemin d'un asset
 function asset($path)
 {
   $assetPath = trim(serverDomain() . "/src/assets/" . $path);
   return $assetPath;
+}
+
+// Fonction pour obtenir la lang sinon choisir l'anglais comme langue par défaut
+function language($lang = "en")
+{
+  $langFile = __DIR__ . "/src/lang/$lang.json";
+  if (file_exists($langFile)) {
+    return json_decode(file_get_contents($langFile), true);
+  }
+}
+
+$availableLang = [
+  "de" => 'Deutsch',
+  "en" => 'English',
+  "es" => 'Español',
+  "fr" => 'Français',
+  "id" => 'Bahasa Indonesia',
+  "it" => 'Italiano',
+  "pt" => 'Português',
+  "tl" => 'Tagalog',
+];
+
+if (isset($_COOKIE['lang']) && array_key_exists($_COOKIE['lang'], $availableLang)) {
+  $_SESSION['lang'] = $_COOKIE['lang'];
+}
+
+$lang = $_SESSION['lang'] ?? 'en';
+$translations = language($lang);
+
+function translate($string)
+{
+  global $translations;
+  return htmlspecialchars($translations[$string] ?? $string);
 }
 
 // Fonction pour obtenir des informations sur le serveur
@@ -39,8 +73,8 @@ $serverInfo = getServerInfo();
 function getSqlInfo()
 {
   $output = shell_exec("mysql -V");
-  preg_match('@[0-9]+\.[0-9]+\.[0-9-\w]+@', $output, $version);
-  return $version;
+  preg_match('/\d+\.\d+\.\d+/', $output, $version);
+  return $version[0] ?? "Version Not Found";
 }
 
 // ---------------------------------------------------------------
@@ -204,10 +238,11 @@ if (isset($_GET['q'])) {
   }
 }
 
+
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?= $lang ?>">
 
 <head>
   <meta charset="UTF-8" />
@@ -228,28 +263,43 @@ if (isset($_GET['q'])) {
     <h1 class="header__logo"><img src="<?= asset('logo.svg') ?>" /></h1>
     <nav class="header__navigation-menu">
       <ul class="header__primary-menu">
-        <li class="header__menu-item">
-          <a href="#" class="header__link link">Projets</a>
-          <ul class="header__sub-menu">
+        <li class="header__menu-item dropdown-container">
+          <a href="#" class="header__link link"><?= translate('Projects') ?></a>
+          <ul class="header__sub-menu dropdown-content">
             <?php foreach (getLocalSites() as $site) : ?>
-              <li class="header__menu-item">
+              <li class="header__menu-item sub-menu-item">
                 <a target="_blank" href="http://<?= $site['domain'] ?>" class="header__link link"><?= preg_replace('/^auto\.|-|\.test.conf$/', ' ', $site['filename']) ?></a>
               </li>
             <?php endforeach ?>
           </ul>
         </li>
         <li class="header__menu-item">
-          <a href="http://localhost/phpmyadmin" class="header__link link" target="_blank">Phpmyadmin</a>
+          <a href="http://localhost/phpmyadmin" class="header__link link" target="_blank"><?= translate('PhpMyAdmin') ?></a>
         </li>
         <li class="header__menu-item">
-          <a href="?q=info" class="header__link link" target="_blank">PHP info</a>
+          <a href="?q=info" class="header__link link" target="_blank"><?= translate('PHP Info') ?></a>
         </li>
         <li class="header__menu-item">
-          <button class="header__link link" target="_blank" data-popup-target="email-popup">Email</button>
+          <button class="header__link link" target="_blank" data-popup-target="email-popup"><?= translate('Email') ?></button>
         </li>
       </ul>
     </nav>
+
+    <!-- header actions button container -->
     <div class="header__actions">
+
+      <!-- dropdown language -->
+
+      <div class="dropdown-container lang-dropdown">
+        <span href="#" class="link"><?= $availableLang[$lang] ?></span>
+        <ul class="dropdown-content">
+          <?php foreach ($availableLang as $key => $value) : ?>
+            <li class="header__menu-item dropdown-content__item"><span data-lang="<?= $key ?>" class="set-lang link <?= $key === $lang ? 'active' : null ?>"><?= $value ?></span></li>
+          <?php endforeach ?>
+        </ul>
+      </div>
+
+      <!-- toggle theme mode -->
       <div class="theme-toggle" id="theme-toggle">
         <div class="theme-toggle__content">
           <?php include 'src/assets/icons/interface/sun.svg' ?>
@@ -257,7 +307,9 @@ if (isset($_GET['q'])) {
         </div>
       </div>
 
-      <a href="https://laragon.org/docs" target="_blank" class="header__filled-btn filled-btn">Documentation</a>
+      <!-- Documentation button -->
+      <button class="header__filled-btn filled-btn toggle-menu-mobile">Menu</button>
+      <a href="https://laragon.org/docs" target="_blank" class="documentation-btn header__filled-btn filled-btn"><?= translate('Documentation') ?></a>
     </div>
   </header>
 
@@ -268,26 +320,26 @@ if (isset($_GET['q'])) {
         <div class="main-content__laragon-version-container">
           <p>Full 6.0.220916</p>
         </div>
-        <h1 class="main-content__title" title="Laragon">Laragon</h1>
+        <h1 class="main-content__title" title="Laragon"><?= translate('Laragon') ?></h1>
       </div>
-      <h3 class="main-content__subtitle">Local server panel</h3>
+      <h3 class="main-content__subtitle"><?= translate('subtitle') ?></h3>
 
       <div class="server-info">
         <div class="server-info__item">
-          <strong class="server-info__item__title">PHP Version</strong>
+          <strong class="server-info__item__title"><?= translate('PHP version') ?></strong>
           <p class="server-info__item__subtitle"><?= $serverInfo['phpVer'] ?></p>
         </div>
 
         <div class="server-info__item">
-          <strong class="server-info__item__title">OpenSSL</strong>
+          <strong class="server-info__item__title"><?= translate('OpenSSL') ?></strong>
           <p class="server-info__item__subtitle"><?= $serverInfo['openSsl'] ?></p>
         </div>
         <div class="server-info__item">
-          <strong class="server-info__item__title">MySQL</strong>
-          <p class="server-info__item__subtitle"><?= "MySql" ?></p>
+          <strong class="server-info__item__title"><?= translate('MySql') ?></strong>
+          <p class="server-info__item__subtitle"><?= translate(getSqlInfo()) ?></p>
         </div>
         <div class="server-info__item">
-          <strong class="server-info__item__title">Document Root </strong>
+          <strong class="server-info__item__title"><?= translate('Document Root') ?> </strong>
           <p class="server-info__item__subtitle"><?= $_SERVER['DOCUMENT_ROOT']; ?></p>
         </div>
       </div>
@@ -302,7 +354,7 @@ if (isset($_GET['q'])) {
       </div>
       </div>
   </section>
-   <?php include 'inbox/emails.php' ?>
+  <?php include 'inbox/emails.php' ?>
   <script src="src/js/app.js"></script>
 </body>
 
